@@ -8,6 +8,32 @@
 
 BEGIN;
 
+-- ── 0. MOCK BRAND USER + PROFILE ──────────────────────────────
+INSERT INTO users (id, clerk_user_id, email, role, full_name, created_at, updated_at)
+VALUES (
+  'a0000000-0000-0000-0000-000000000001'::uuid,
+  'mock_brand_folkie',
+  'brand@mock.test',
+  2,
+  'Folkie Demo Brand',
+  NOW(), NOW()
+)
+ON CONFLICT (clerk_user_id) DO NOTHING;
+
+INSERT INTO brand_profiles (id, user_id, brand_name, industry, website, contact_name, is_verified, is_active, created_at, updated_at)
+VALUES (
+  'f0000000-0000-0000-0000-000000000001'::uuid,
+  'a0000000-0000-0000-0000-000000000001'::uuid,
+  'Folkie Demo Brand',
+  'Fashion & Lifestyle',
+  'https://folkie.com.tr',
+  'Demo Admin',
+  true,
+  true,
+  NOW(), NOW()
+)
+ON CONFLICT (user_id) DO NOTHING;
+
 -- ── 1. FAKE CREATOR USERS ─────────────────────────────────────
 INSERT INTO users (id, clerk_user_id, email, role, full_name, created_at, updated_at)
 VALUES
@@ -196,11 +222,23 @@ COMMIT;
 
 -- ── VERIFY ──────────────────────────────────────────────────────
 SELECT 'campaigns' AS tbl, count(*) FROM campaigns WHERE id IN (
-  'c1000000-0000-0000-0000-000000000001',
-  'c1000000-0000-0000-0000-000000000002',
-  'c1000000-0000-0000-0000-000000000003'
+  'c1000000-0000-0000-0000-000000000001'::uuid,
+  'c1000000-0000-0000-0000-000000000002'::uuid,
+  'c1000000-0000-0000-0000-000000000003'::uuid
 )
 UNION ALL
-SELECT 'applications', count(*) FROM campaign_applications WHERE id LIKE 'd1000000%'
+SELECT 'applications', count(*) FROM campaign_applications WHERE id IN (
+  'd1000000-0000-0000-0000-000000000001'::uuid,
+  'd1000000-0000-0000-0000-000000000002'::uuid,
+  'd1000000-0000-0000-0000-000000000003'::uuid,
+  'd1000000-0000-0000-0000-000000000004'::uuid,
+  'd1000000-0000-0000-0000-000000000005'::uuid,
+  'd1000000-0000-0000-0000-000000000006'::uuid
+)
 UNION ALL
-SELECT 'submissions', count(*) FROM content_submissions WHERE id LIKE 'e1000000%';
+SELECT 'submissions', count(*) FROM content_submissions WHERE id IN (
+  'e1000000-0000-0000-0000-000000000001'::uuid,
+  'e1000000-0000-0000-0000-000000000002'::uuid,
+  'e1000000-0000-0000-0000-000000000003'::uuid,
+  'e1000000-0000-0000-0000-000000000004'::uuid
+);
