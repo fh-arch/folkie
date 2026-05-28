@@ -1,0 +1,28 @@
+# Folkie
+
+> Folkie, Türkiye merkezli markaları 1.000-10.000 takipçili nano TikTok creator'larıyla buluşturan B2B influencer marketing pazar yeridir. AI eşleşme algoritması, manuel ödeme güvenliği ve %15 komisyonla şeffaf bir model sunar.
+
+Folkie, küçük ve orta ölçekli markaların büyük ajans bütçeleri olmadan TikTok'ta gerçek topluluk etkisi yaratmasını sağlar. Platform; marka kampanya oluşturma, nano-creator başvuruları, AI tabanlı eşleşme, içerik onayı ve manuel IBAN transferi içerir.
+
+## Ürün
+
+- [Ana Sayfa](https://folkie.com.tr/): Markalar için pazar yeri tanıtımı, özellikler, fiyatlandırma
+- [Hakkımızda](https://folkie.com.tr/hakkimizda): Misyon, vizyon, değerler, çalışma modeli
+- [İletişim](https://folkie.com.tr/iletisim): Destek, ortaklık, basın, kariyer, KVKK iletişim kanalları
+- [Kariyer](https://folkie.com.tr/kariyer): Açık pozisyonlar ve başvuru bilgisi
+
+## İçerik
+
+- [Blog](https://folkie.com.tr/blog): Nano creator pazarlaması, marka rehberleri, sektör trendleri (yakında)
+
+## Yasal
+
+- [Kullanım Şartları](https://folkie.com.tr/kullanim-kosullari): Folkie platformunun kullanım koşulları
+- [Gizlilik Politikası](https://folkie.com.tr/gizlilik): Kullanıcı verilerinin işlenmesi politikası
+- [KVKK Aydınlatma Metni](https://folkie.com.tr/kvkk): 6698 sayılı kanun kapsamında veri sahibi hakları
+- [Çerez Politikası](https://folkie.com.tr/cerez-politikasi): Kullanılan çerezler ve yönetimi
+
+## Optional
+
+- [Giriş](https://folkie.com.tr/giris): Mevcut kullanıcılar için oturum açma
+- [Kayıt](https://folkie.com.tr/kayit): Marka veya creator olarak hesap oluşturma

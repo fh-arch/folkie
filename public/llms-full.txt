@@ -1,0 +1,119 @@
+# Folkie — Nano TikTok Creator Marketplace
+
+> Folkie, Türkiye merkezli markaları 1.000-10.000 takipçili nano TikTok creator'larıyla buluşturan B2B influencer marketing pazar yeridir. AI eşleşme, manuel ödeme güvenliği, %15 komisyon ile şeffaf bir model.
+
+## Folkie nedir?
+
+Folkie, küçük ve orta ölçekli markaların TikTok'ta gerçek topluluk etkisi yaratmasını sağlayan bir pazar yeridir. Büyük ajans bütçesi gerektirmez. Hedef kitle: 1.000-10.000 takipçili nano creator'lar (yüksek etkileşim oranı, gerçek topluluk, makul ücret).
+
+### Misyon
+
+Her boy markaya, TikTok'ta gerçek topluluk etkisi yaratan creator'lara erişim sağlamak.
+
+### Vizyon
+
+Türkiye'nin sürdürülebilir nano-creator ekonomisini kurmak. Adil ücret, şeffaf süreç, gerçek metriklerle.
+
+### Değerler
+
+- **Şeffaflık**: Komisyon dışında gizli maliyet yok. Marka %15 platform ücreti dışında ekstra ödeme yapmaz.
+- **Güvenlik**: IBAN şifreli saklanır (.NET Data Protection API), KVKK uyumlu.
+- **Gerçeklik**: Fake follower kontrolü, bot skoru, gerçek metrikler.
+
+## Nasıl çalışır?
+
+### Marka tarafı (5 adımda kampanya)
+
+1. **Kampanya oluştur**: Ürün, hedef kitle, brief, bütçe — 5 dakikada hazır
+2. **Nano creator'lar başvurur**: AI eşleşme skoruyla en uygun creator'lar başvurur
+3. **Sen seç**: Beğendiğin creator'ları onayla, diğerlerini reddet
+4. **İçerik üretimi**: Onaylı creator brief'e uygun video üretir, sen onaylarsın veya revizyon istersin
+5. **Yayın + ödeme**: Creator TikTok'ta yayınlar. Folkie ekibi ödemeyi creator'ın IBAN'ına manuel transfer eder.
+
+### Creator tarafı
+
+1. **Kayıt ol**: Email + TikTok kullanıcı adınla profil aç
+2. **Profil tamamla**: Bio, şehir, içerik kategorileri, dil, IBAN bilgisi
+3. **Kampanyaları keşfet**: AI senin için en uygun açık kampanyaları gösterir
+4. **Başvur**: Beğendiğin kampanyaya tek tıkla başvur
+5. **Onaylanırsan**: Ürün adresine gönderilir, brief'e uygun içerik üretirsin
+6. **Yayın günü TikTok'ta paylaş, ödemeni al**
+
+## Ücretlendirme
+
+- **Aylık abonelik YOK**
+- **%15 komisyon**: Sadece tamamlanan kampanyalardan, başarı bazlı
+- **Creator'lar için ücretsiz**: Kayıt, profil, kampanya başvurusu hep ücretsiz
+
+## AI eşleşme algoritması
+
+Folkie, marka kampanyasına en uygun nano-creator'ları aşağıdaki faktörlerle skorlar:
+
+- **Kategori uyumu**: 30 puan (marka kategorisi × creator içerik kategorisi)
+- **Konum**: 15 puan (şehir/ülke eşleşmesi)
+- **Takipçi aralığı**: 25 puan (kampanya hedef aralığına uygunluk)
+- **Etkileşim oranı**: 15 puan (% engagement rate)
+- **İçerik dili**: 5 puan (tr/en)
+- **Güvenilirlik**: 10 puan (fake follower skoru, geçmiş başarı, doğrulama)
+
+Toplam max 100 puan. Faz 2'de Gemini embeddings + semantic matching eklenecek.
+
+## Güvenlik
+
+- **IBAN şifreleme**: Tüm IBAN bilgileri .NET Data Protection API ile şifrelenir
+- **KVKK uyumlu**: 6698 sayılı kanuna tam uyum
+- **Clerk authentication**: Endüstri standardı kimlik doğrulama (JWT + OAuth)
+- **TLS/SSL**: folkie.com.tr Let's Encrypt sertifikası ile HTTPS
+- **Manuel ödeme**: Otomatik para transferi yok — Folkie admin ekibi her transferi manuel kontrol eder
+
+## Teknik altyapı
+
+- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS, Clerk
+- **Backend**: ASP.NET Core 8, EF Core, PostgreSQL, MediatR (CQRS)
+- **Hosting**: Contabo VPS (Türkiye operasyonu için optimize)
+- **Email**: Resend (transactional emails)
+- **AI**: Gemini 2.0 Flash (eşleşme, içerik analizi)
+- **Storage**: Contabo Object Storage (S3-compatible)
+
+## Folkie Stars (Gamification)
+
+Creator'lar başarılı kampanyalarla rozet kazanır:
+
+- **Welcome** (yeni kayıt)
+- **Rising** (3+ tamamlanmış kampanya)
+- **Shining** (10+ tamamlanmış kampanya, yüksek puanlama)
+- **Super Star** (25+ tamamlanmış kampanya, top performer)
+
+## SSS özetleri
+
+### Folkie kimler için?
+
+- **Markalar**: KOBI, e-ticaret, SaaS, restoran zincirleri, küçük markalar — TikTok'ta görünürlük isteyen herkes
+- **Creator'lar**: 1.000-10.000 TikTok takipçisi olan, içerik üretmeyi seven herkes (Türkiye'de yaşayan)
+
+### Komisyon nasıl alınıyor?
+
+Marka kampanya bütçesinin %15'i platform komisyonudur. Brand'in ödediği toplam tutar = creator ücretleri + %15 Folkie komisyonu. Creator tam ücretini alır, komisyon brand'den çekilir.
+
+### Ödeme ne zaman yapılır?
+
+Creator içeriği TikTok'ta yayınladıktan ve marka onayladıktan sonra. Folkie admin ekibi 5 iş günü içinde IBAN'a transfer eder.
+
+### Bot/fake follower nasıl tespit ediliyor?
+
+Creator kayıt sırasında TikTok hesap analizi yapılır. Etkileşim oranı, takipçi/etkileşim oranı, comment quality gibi sinyallerle bot skoru hesaplanır. Yüksek bot skoru olan hesaplar moderasyon ekibine işaretlenir.
+
+### Türkçe dışında dil destekleniyor mu?
+
+Şu an Türkçe ana dil. Creator'lar profilinde içerik dili olarak Türkçe + İngilizce seçebilir. English-first kullanıcı arayüzü Q3 2026'da geliyor.
+
+## İletişim
+
+- **Genel destek**: destek@folkie.com.tr
+- **Marka ortaklığı**: hello@folkie.com.tr
+- **Basın & medya**: press@folkie.com.tr
+- **Kariyer**: kariyer@folkie.com.tr
+- **KVKK & hukuki**: kvkk@folkie.com.tr
+
+Operasyon merkezi: İstanbul, Türkiye
+Web: https://folkie.com.tr

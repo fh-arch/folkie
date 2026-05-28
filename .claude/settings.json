@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(node -e \"const p = require\\('@clerk/nextjs/package.json'\\); console.log\\('Clerk version:', p.version\\);\")"
+    ],
+    "additionalDirectories": [
+      "/Users/fh/Documents/Claude/Projects/FOLKIE"
+    ]
+  }
+}

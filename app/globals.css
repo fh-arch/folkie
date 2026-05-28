@@ -1,0 +1,114 @@
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Folkie marka kiti — UI mockup'tan alındı */
+    --background: 240 33% 98%;             /* #F7F7FB — Off-White */
+    --foreground: 230 50% 10%;             /* Navy yakını */
+
+    --card: 0 0% 100%;
+    --card-foreground: 230 50% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 230 50% 10%;
+
+    --primary: 252 100% 62%;               /* #6B3DFF — Violet (Folkie ana mor) */
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 252 78% 95%;          /* açık violet arkaplan */
+    --primary-mid: 252 95% 76%;            /* #A78BFA — Lavender */
+
+    --secondary: 240 33% 96%;
+    --secondary-foreground: 230 50% 10%;
+
+    --muted: 240 20% 95%;
+    --muted-foreground: 230 15% 40%;
+
+    --accent: 75 100% 50%;                 /* #C6FF00 — Neon Lime */
+    --accent-foreground: 230 50% 10%;      /* lime üzerinde koyu yazı */
+
+    --destructive: 6 78% 57%;              /* #E74C3C */
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 145 63% 49%;                /* #2ECC71 */
+    --warning: 36 90% 51%;                 /* #F39C12 */
+
+    --navy: 230 50% 10%;                   /* #0D1226 — Navy (dark cards/CTAs) */
+    --navy-foreground: 0 0% 100%;
+
+    --border: 240 14% 90%;
+    --input: 240 14% 90%;
+    --ring: 252 100% 62%;
+
+    --radius: 0.875rem;
+  }
+
+  .dark {
+    --background: 230 50% 10%;             /* Navy bg */
+    --foreground: 240 33% 98%;
+    --card: 230 35% 14%;
+    --card-foreground: 240 33% 98%;
+    --popover: 230 35% 14%;
+    --popover-foreground: 240 33% 98%;
+    --primary: 252 100% 70%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 252 30% 25%;
+    --primary-mid: 252 60% 60%;
+    --secondary: 230 30% 20%;
+    --secondary-foreground: 240 33% 98%;
+    --muted: 230 30% 20%;
+    --muted-foreground: 240 20% 65%;
+    --accent: 75 100% 50%;
+    --accent-foreground: 230 50% 10%;
+    --border: 230 30% 24%;
+    --input: 230 30% 24%;
+    --ring: 252 100% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Satoshi", system-ui, -apple-system, sans-serif;
+    font-feature-settings: "ss01", "ss02";
+  }
+  h1 { @apply text-h1; }
+  h2 { @apply text-h2; }
+  h3 { @apply text-h3; }
+}
+
+@layer components {
+  .container-folkie {
+    @apply container max-w-7xl;
+  }
+
+  /* Marka kitindeki yumuşak yuvarlak buton */
+  .btn-pill {
+    @apply rounded-full px-5 py-2.5 text-small font-medium transition-colors;
+  }
+  .btn-primary {
+    @apply btn-pill bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+  .btn-accent {
+    @apply btn-pill bg-accent text-accent-foreground hover:bg-accent/90;
+  }
+  .btn-outline {
+    @apply btn-pill border-2 border-primary text-primary hover:bg-primary-light;
+  }
+
+  /* Mockup'taki yuvarlatılmış kartlar */
+  .card-folkie {
+    @apply rounded-2xl border border-border bg-card p-5;
+  }
+
+  /* Navy "öne çıkan" kart (mockup sağ üst) */
+  .card-navy {
+    @apply rounded-2xl bg-navy p-6 text-navy-foreground;
+  }
+}
