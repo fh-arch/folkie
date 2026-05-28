@@ -27,7 +27,7 @@ interface Favorite {
 
 const TIER_LABELS: Record<Favorite["tier"], { label: string; class: string }> = {
   nano: { label: "Nano", class: "bg-accent text-accent-foreground" },
-  micro: { label: "Mikro", class: "bg-primary-light text-primary" },
+  micro: { label: "Micro", class: "bg-primary-light text-primary" },
   mid_tier: { label: "Mid-tier", class: "bg-muted text-muted-foreground" },
 };
 
@@ -44,22 +44,22 @@ export default async function BrandFavoritesPage() {
     return (
       <div>
         <PageHeader
-          title="Favorilerim"
-          description="Beğendiğin creator'ları sonraki kampanyalarına davet için kaydet."
-          breadcrumbs={[{ label: "Favoriler" }]}
+          title="My Favorites"
+          description="Save creators you like for future campaign invitations."
+          breadcrumbs={[{ label: "Favorites" }]}
         />
         <section className="card-folkie">
           <EmptyState
             icon={Heart}
-            title={fetchError ? "Yüklenemedi" : "Henüz favori yok"}
+            title={fetchError ? "Failed to load" : "No favorites yet"}
             description={
               fetchError
-                ? `Hata: ${fetchError}`
-                : "Keşfet sayfasındaki creator'ları kalp ikonu ile kaydet. Burada toplu görür ve davetlerini yönetirsin."
+                ? `Error: ${fetchError}`
+                : "Save creators from the Discover page using the heart icon. Manage and invite them from here."
             }
             primaryAction={{
               href: "/brand/discover",
-              label: "Creator Keşfet",
+              label: "Discover Creators",
               icon: Search,
             }}
             size="lg"
@@ -72,9 +72,9 @@ export default async function BrandFavoritesPage() {
   return (
     <div>
       <PageHeader
-        title="Favorilerim"
-        description={`${favorites.length} kayıtlı creator`}
-        breadcrumbs={[{ label: "Favoriler" }]}
+        title="My Favorites"
+        description={`${favorites.length} saved ${favorites.length === 1 ? "creator" : "creators"}`}
+        breadcrumbs={[{ label: "Favorites" }]}
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -117,11 +117,11 @@ function FavoriteCard({ f }: { f: Favorite }) {
         <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border pt-3">
           <div>
             <div className="text-small font-semibold">{formatNumber(f.followerCount)}</div>
-            <div className="text-caption text-muted-foreground">Takipçi</div>
+            <div className="text-caption text-muted-foreground">Followers</div>
           </div>
           <div>
             <div className="text-small font-semibold text-success">{f.engagementRate.toFixed(1)}%</div>
-            <div className="text-caption text-muted-foreground">Etkileşim</div>
+            <div className="text-caption text-muted-foreground">Engagement</div>
           </div>
         </div>
 

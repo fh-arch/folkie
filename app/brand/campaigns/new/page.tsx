@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, Sparkles, Zap, Loader2 } from "lucide-react";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { cn, formatTRY } from "@/lib/utils";
@@ -58,6 +57,21 @@ export default function NewCampaignPage() {
 
   async function handleSave(submitForPayment: boolean) {
     setError(null);
+
+    // Frontend validation — mirrors backend rules to give instant feedback
+    if (!form.title.trim()) return setError("Campaign title is required.");
+    if (!form.productName.trim()) return setError("Product name is required.");
+    if (!form.productCategory) return setError("Product category is required.");
+    if (form.brief.trim().length < 20) return setError("Brief must be at least 20 characters.");
+    if (!form.applicationDeadline || !form.publishStartDate || !form.publishEndDate)
+      return setError("Please fill in all date fields (deadline, publish start, publish end).");
+    if (form.publishStartDate <= form.applicationDeadline)
+      return setError("Publish start date must be after the application deadline.");
+    if (form.publishEndDate < form.publishStartDate)
+      return setError("Publish end date must be on or after the publish start date.");
+    if (form.budgetPerInfluencer < 500)
+      return setError("Minimum budget per creator is ₺500.");
+
     setSubmitting(true);
     const result = await createCampaign({
       title: form.title,

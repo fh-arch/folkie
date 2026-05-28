@@ -73,9 +73,13 @@ export default function CreatorProfilePage() {
   }, []);
 
   async function handleSave() {
-    setSaving(true);
     setError(null);
     setSaved(false);
+    if (form.categories.length === 0) {
+      setError("Please select at least one category before saving.");
+      return;
+    }
+    setSaving(true);
     const result = await saveCreatorProfile({
       bio: form.bio || null,
       city: form.city || null,
@@ -201,7 +205,7 @@ export default function CreatorProfilePage() {
             </Field>
 
             <Field
-              label={`Kategoriler (${form.categories.length}/5)`}
+              label={`Categories (${form.categories.length}/5)`}
               hint="Pick up to 5."
             >
               <div className="flex flex-wrap gap-2">
@@ -440,7 +444,7 @@ export default function CreatorProfilePage() {
           <div className="flex justify-end">
             <button
               onClick={handleSave}
-              disabled={saving || form.categories.length === 0}
+              disabled={saving}
               className="flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-small font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
             >
               {saving ? (
