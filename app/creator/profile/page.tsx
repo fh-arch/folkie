@@ -11,8 +11,6 @@ import {
   CheckCircle2,
   Trophy,
   AlertTriangle,
-  Eye,
-  EyeOff,
   Loader2,
 } from "lucide-react";
 import { PageHeader } from "@/components/shared/PageHeader";
@@ -371,63 +369,60 @@ export default function CreatorProfilePage() {
           <section className="card-folkie p-6">
             <h3>Payment Details</h3>
             <p className="mt-1 text-small text-muted-foreground">
-              Campaign payments are sent to this IBAN. Folkie admin transfers
-              manually. Your details are encrypted.
-              {profile?.hasIban && (
-                <span className="ml-1 font-semibold text-success">
-                  ✓ IBAN on file.
-                </span>
-              )}
+              Campaign payments are sent to this IBAN. Folkie admin transfers manually. Your details are encrypted.
             </p>
 
-            <Field label="Account holder name">
-              <Input
-                value={form.ibanName}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, ibanName: e.target.value }))
-                }
-                placeholder="Ad Soyad"
-              />
-            </Field>
-
-            <Field
-              label={profile?.hasIban ? "New IBAN (replaces current)" : "IBAN"}
-              hint="TR + 24 digits = 26 characters"
-            >
-              <div className="relative">
-                <Input
-                  type={showIban ? "text" : "password"}
-                  value={form.iban}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, iban: e.target.value.toUpperCase().replace(/\s/g, "") }))
-                  }
-                  placeholder={
-                    profile?.hasIban
-                      ? "•••••••••••••••••••••••••"
-                      : "TR000000000000000000000000"
-                  }
-                  maxLength={26}
-                  className="pr-10"
-                />
+            {profile?.hasIban && !showIban ? (
+              <div className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-success/30 bg-success/5 p-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-success/15">
+                    <CreditCard className="h-5 w-5 text-success" />
+                  </div>
+                  <div>
+                    <div className="text-small font-semibold text-success">IBAN saved</div>
+                    <div className="text-caption text-muted-foreground">{profile.ibanName ?? "Account holder on file"}</div>
+                  </div>
+                </div>
                 <button
                   type="button"
-                  onClick={() => setShowIban((s) => !s)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  aria-label={showIban ? "Hide" : "Show"}
+                  onClick={() => setShowIban(true)}
+                  className="rounded-full border border-border px-3 py-1.5 text-caption hover:border-primary"
                 >
-                  {showIban ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  Change
                 </button>
               </div>
-              {form.iban.length > 0 && !/^TR\d{24}$/.test(form.iban) && (
-                <p className="mt-1 text-caption text-destructive">
-                  Invalid format. Must be 26 characters starting with TR (e.g. TR330006100519786457841326)
-                </p>
-              )}
-            </Field>
+            ) : (
+              <>
+                <Field label="Account holder name">
+                  <Input
+                    value={form.ibanName}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, ibanName: e.target.value }))
+                    }
+                    placeholder="Full name"
+                  />
+                </Field>
+
+                <Field
+                  label="IBAN"
+                  hint="TR + 24 digits = 26 characters"
+                >
+                  <Input
+                      value={form.iban}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, iban: e.target.value.toUpperCase().replace(/\s/g, "") }))
+                      }
+                      placeholder="TR000000000000000000000000"
+                      maxLength={26}
+                    />
+                  {form.iban.length > 0 && !/^TR\d{24}$/.test(form.iban) && (
+                    <p className="mt-1 text-caption text-destructive">
+                      Invalid format. Must be 26 characters starting with TR
+                    </p>
+                  )}
+                </Field>
+              </>
+            )}
           </section>
 
           {error && (
