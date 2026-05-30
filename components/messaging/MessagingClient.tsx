@@ -59,15 +59,18 @@ export function MessagingClient() {
         const res = await fetch("/api/proxy/messaging/conversations", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ otherUserId: userId }),
+          body: JSON.stringify({ otherUserId: userId, subject: "Direct Message" }),
         });
         if (res.ok) {
-          const conv = await res.json() as Conversation;
-          setActiveId(conv.id);
+          const data = await res.json() as { id: string };
+          // Reload conversation list to get full conversation details
+          const listRes = await fetch("/api/proxy/messaging/conversations");
+          if (listRes.ok) {
+            const list = await listRes.json();
+            setConversations(Array.isArray(list) ? list : []);
+          }
+          setActiveId(data.id);
           setShowThread(true);
-          setConversations((prev) =>
-            prev.find((c) => c.id === conv.id) ? prev : [conv, ...prev],
-          );
         }
       } catch {}
     }

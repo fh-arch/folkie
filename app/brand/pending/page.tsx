@@ -20,6 +20,7 @@ interface Submission {
   engagementRate: number;
   submissionStatus: string;
   videoUrl: string | null;
+  externalVideoUrl: string | null;
   script: string | null;
   revisionNote: string | null;
   hashtags: string[];

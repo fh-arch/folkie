@@ -5,9 +5,9 @@ export default function BrandMessagesPage() {
   return (
     <div>
       <PageHeader
-        title="Mesajlar"
-        description="Creator'larla doğrudan canlı mesajlaşma."
-        breadcrumbs={[{ label: "Mesajlar" }]}
+        title="Messages"
+        description="Direct messaging with creators."
+        breadcrumbs={[{ label: "Messages" }]}
       />
       <MessagingClient />
     </div>
