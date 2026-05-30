@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { Suspense, useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   Search,
@@ -37,7 +37,16 @@ interface Message {
 
 const POLL_MS = 5000;
 
+// Exported wrapper — Suspense required because useSearchParams() is used inside
 export function MessagingClient() {
+  return (
+    <Suspense fallback={<div className="flex h-[70vh] items-center justify-center text-muted-foreground text-small">Loading messages...</div>}>
+      <MessagingClientContent />
+    </Suspense>
+  );
+}
+
+function MessagingClientContent() {
   const searchParams = useSearchParams();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -61,18 +70,23 @@ export function MessagingClient() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ otherUserId: userId, subject: "Direct Message" }),
         });
-        if (res.ok) {
-          const data = await res.json() as { id: string };
-          // Reload conversation list to get full conversation details
-          const listRes = await fetch("/api/proxy/messaging/conversations");
-          if (listRes.ok) {
-            const list = await listRes.json();
-            setConversations(Array.isArray(list) ? list : []);
-          }
-          setActiveId(data.id);
-          setShowThread(true);
+        if (!res.ok) {
+          const e = await res.json().catch(() => ({}));
+          setError(`Could not open conversation (${res.status}): ${e.error ?? "unknown error"}`);
+          return;
         }
-      } catch {}
+        const data = await res.json() as { id: string };
+        // Reload conversation list to get full conversation details
+        const listRes = await fetch("/api/proxy/messaging/conversations");
+        if (listRes.ok) {
+          const list = await listRes.json();
+          setConversations(Array.isArray(list) ? list : []);
+        }
+        setActiveId(data.id);
+        setShowThread(true);
+      } catch (e) {
+        setError(`Connection error: ${e instanceof Error ? e.message : "unknown"}`);
+      }
     }
     openOrCreate();
   }, [searchParams]);
