@@ -86,7 +86,7 @@ export function CreatorSearchClient({ initial }: { initial: SearchResult }) {
           )}
         >
           <SlidersHorizontal className="h-3.5 w-3.5" />
-          Filtrele
+          Filters
         </button>
         <button
           onClick={() => applyFilters(filters)}
@@ -102,7 +102,7 @@ export function CreatorSearchClient({ initial }: { initial: SearchResult }) {
         <div className="mt-4 grid gap-3 rounded-xl bg-muted/40 p-4 sm:grid-cols-2 lg:grid-cols-4">
           <select
             value={filters.category}
-            onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+            onChange={(e) => applyFilters({ ...filters, category: e.target.value })}
             className="rounded-full border border-border bg-background px-3 py-1.5 text-small"
           >
             <option value="">Category (all)</option>
@@ -115,7 +115,7 @@ export function CreatorSearchClient({ initial }: { initial: SearchResult }) {
 
           <select
             value={filters.city}
-            onChange={(e) => setFilters({ ...filters, city: e.target.value })}
+            onChange={(e) => applyFilters({ ...filters, city: e.target.value })}
             className="rounded-full border border-border bg-background px-3 py-1.5 text-small"
           >
             <option value="">City (all)</option>
@@ -128,7 +128,7 @@ export function CreatorSearchClient({ initial }: { initial: SearchResult }) {
 
           <select
             value={filters.tier}
-            onChange={(e) => setFilters({ ...filters, tier: e.target.value })}
+            onChange={(e) => applyFilters({ ...filters, tier: e.target.value })}
             className="rounded-full border border-border bg-background px-3 py-1.5 text-small"
           >
             <option value="">Tier (all)</option>
@@ -141,7 +141,7 @@ export function CreatorSearchClient({ initial }: { initial: SearchResult }) {
             <input
               type="checkbox"
               checked={filters.verifiedOnly}
-              onChange={(e) => setFilters({ ...filters, verifiedOnly: e.target.checked })}
+              onChange={(e) => applyFilters({ ...filters, verifiedOnly: e.target.checked })}
               className="h-4 w-4 accent-primary"
             />
             Verified only
