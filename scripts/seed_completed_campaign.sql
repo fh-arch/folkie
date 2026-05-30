@@ -92,20 +92,20 @@ BEGIN
   INSERT INTO payments (
     id, campaign_id, influencer_profile_id, amount, payment_type,
     status, iban, iban_name, transfer_reference,
-    approved_at, transferred_at, created_at
+    approved_at, transferred_at, created_at, updated_at
   ) VALUES
     (v_pay1, v_camp, 'b1000000-0000-0000-0000-000000000001'::uuid,
      2000.00, 1, 3,
      'TR330006100519786457841001', 'Selin Yıldız', 'TRF-2026-001',
-     NOW() - INTERVAL '35 days', NOW() - INTERVAL '32 days', NOW() - INTERVAL '40 days'),
+     NOW() - INTERVAL '35 days', NOW() - INTERVAL '32 days', NOW() - INTERVAL '40 days', NOW()),
     (v_pay2, v_camp, 'b1000000-0000-0000-0000-000000000002'::uuid,
      2000.00, 1, 3,
      'TR330006100519786457841002', 'Deniz Kaya', 'TRF-2026-002',
-     NOW() - INTERVAL '35 days', NOW() - INTERVAL '32 days', NOW() - INTERVAL '40 days'),
+     NOW() - INTERVAL '35 days', NOW() - INTERVAL '32 days', NOW() - INTERVAL '40 days', NOW()),
     (v_pay3, v_camp, 'b1000000-0000-0000-0000-000000000003'::uuid,
      2000.00, 1, 3,
      'TR330006100519786457841003', 'Ece Şahin', 'TRF-2026-003',
-     NOW() - INTERVAL '35 days', NOW() - INTERVAL '32 days', NOW() - INTERVAL '40 days')
+     NOW() - INTERVAL '35 days', NOW() - INTERVAL '32 days', NOW() - INTERVAL '40 days', NOW())
   ON CONFLICT (id) DO NOTHING;
 
 END $$;
@@ -113,10 +113,10 @@ END $$;
 COMMIT;
 
 -- Verify
-SELECT 'campaign' AS tbl, title, status FROM campaigns WHERE id = 'cc000000-0000-0000-0000-000000000001'::uuid
+SELECT 'campaign'     AS tbl, count(*)::text AS n FROM campaigns            WHERE id = 'cc000000-0000-0000-0000-000000000001'::uuid
 UNION ALL
-SELECT 'applications', count(*)::text, '' FROM campaign_applications WHERE campaign_id = 'cc000000-0000-0000-0000-000000000001'::uuid
+SELECT 'applications',         count(*)::text      FROM campaign_applications WHERE campaign_id = 'cc000000-0000-0000-0000-000000000001'::uuid
 UNION ALL
-SELECT 'submissions', count(*)::text, '' FROM content_submissions WHERE id LIKE 'ce000000%'
+SELECT 'submissions',          count(*)::text      FROM content_submissions   WHERE application_id IN (SELECT id FROM campaign_applications WHERE campaign_id = 'cc000000-0000-0000-0000-000000000001'::uuid)
 UNION ALL
-SELECT 'payments', count(*)::text, '' FROM payments WHERE campaign_id = 'cc000000-0000-0000-0000-000000000001'::uuid;
+SELECT 'payments',             count(*)::text      FROM payments              WHERE campaign_id = 'cc000000-0000-0000-0000-000000000001'::uuid;
