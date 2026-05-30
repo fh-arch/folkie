@@ -21,7 +21,7 @@ interface SubmissionRow {
   campaignTitle: string;
   brandName: string;
   brandLogoUrl: string | null;
-  status: "submitted" | "revision" | "approved" | "published";
+  status: "submitted" | "revision_requested" | "approved" | "published";
   videoUrl: string | null;
   externalVideoUrl: string | null;
   script: string | null;
@@ -103,7 +103,7 @@ function DraftCard({ submission: s }: { submission: SubmissionRow }) {
   return (
     <article
       className={`overflow-hidden rounded-2xl border bg-background ${
-        s.status === "revision" ? "border-warning/40" : "border-border"
+        s.status === "revision_requested" ? "border-warning/40" : "border-border"
       }`}
     >
       {s.videoUrl ? (
@@ -173,7 +173,7 @@ function DraftCard({ submission: s }: { submission: SubmissionRow }) {
           Submitted: {new Date(s.submittedAt).toLocaleDateString("en-GB")}
         </div>
 
-        {s.status === "revision" && s.revisionNote && (
+        {s.status === "revision_requested" && s.revisionNote && (
           <div className="mt-3 flex items-start gap-2 rounded-xl bg-warning/10 p-3 text-caption">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning" />
             <div>

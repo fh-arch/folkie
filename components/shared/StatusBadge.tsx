@@ -12,6 +12,7 @@ type Variant =
   | "withdrawn"
   | "submitted"
   | "revision"
+  | "revision_requested"
   | "published"
   | "transferred"
   | "received"
@@ -28,7 +29,8 @@ const STYLES: Record<Variant, { bg: string; fg: string; label: string }> = {
   rejected:     { bg: "bg-destructive/15",   fg: "text-destructive",      label: "Rejected" },
   withdrawn:    { bg: "bg-muted",            fg: "text-muted-foreground", label: "Withdrawn" },
   submitted:    { bg: "bg-warning/15",       fg: "text-warning",          label: "Submitted" },
-  revision:     { bg: "bg-accent/30",        fg: "text-foreground",       label: "Revision" },
+  revision:          { bg: "bg-accent/30", fg: "text-foreground", label: "Revision" },
+  revision_requested: { bg: "bg-accent/30", fg: "text-foreground", label: "Revision" },
   published:    { bg: "bg-success/15",       fg: "text-success",          label: "Published" },
   transferred:  { bg: "bg-success/15",       fg: "text-success",          label: "Transferred" },
   received:     { bg: "bg-success/15",       fg: "text-success",          label: "Received" },
