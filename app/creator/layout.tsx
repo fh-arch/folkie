@@ -6,6 +6,8 @@ import { CreatorSidebar } from "@/components/creator/Sidebar";
 import { CreatorTopbar } from "@/components/creator/Topbar";
 import { MobileNav } from "@/components/shared/MobileNav";
 import { getMyBadge } from "@/lib/badge";
+import { apiFetch } from "@/lib/api/client";
+import { ENDPOINTS } from "@/lib/api/endpoints";
 
 export default async function CreatorLayout({
   children,
@@ -15,7 +17,17 @@ export default async function CreatorLayout({
   const role = await getCurrentUserRole();
   if (role !== "influencer") redirect("/dashboard");
 
-  const [user, badge] = await Promise.all([currentUser(), getMyBadge()]);
+  const [user, badge, applications, submissions, conversations] = await Promise.all([
+    currentUser(),
+    getMyBadge(),
+    apiFetch<{ status: string }[]>(ENDPOINTS.creator.applications()).catch(() => []),
+    apiFetch<{ status: string }[]>(ENDPOINTS.creator.submissions()).catch(() => []),
+    apiFetch<{ unreadCount: number }[]>(ENDPOINTS.messaging.conversations()).catch(() => []),
+  ]);
+
+  const collaborationsBadge = applications.filter(a => a.status === "approved").length;
+  const draftsBadge = submissions.filter((s: { status: string }) => s.status === "revision_requested").length;
+  const messagesBadge = conversations.reduce((sum, c) => sum + (c.unreadCount ?? 0), 0);
   const creatorName = user?.firstName ?? "Creator";
   const creatorHandle =
     (user?.publicMetadata?.tiktokHandle as string) ??
@@ -37,6 +49,9 @@ export default async function CreatorLayout({
       badgeLevel={badgeLevel}
       progressPercent={badge?.progressPercent ?? 0}
       nextLevelGap={badge?.nextLevelGap ?? 5}
+      collaborationsBadge={collaborationsBadge}
+      draftsBadge={draftsBadge}
+      messagesBadge={messagesBadge}
     />
   );
 

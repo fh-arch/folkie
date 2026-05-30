@@ -26,37 +26,41 @@ interface NavItem {
   badge?: number;
 }
 
-const MAIN_NAV: NavItem[] = [
-  { href: "/brand", label: "Home", icon: Home },
-  { href: "/brand/campaigns", label: "Campaigns", icon: Megaphone },
-  { href: "/brand/discover", label: "Discover Creators", icon: Search },
-  { href: "/brand/collaborations", label: "Collaborations", icon: Handshake },
-  { href: "/brand/messages", label: "Messages", icon: MessageSquare, badge: 3 },
-  { href: "/brand/reports", label: "Reports", icon: BarChart3 },
-  { href: "/brand/favorites", label: "Favorites", icon: Heart },
-  { href: "/brand/settings", label: "Settings", icon: Settings },
-];
+function buildBrandNav(messagesBadge: number): NavItem[] {
+  return [
+    { href: "/brand", label: "Home", icon: Home },
+    { href: "/brand/campaigns", label: "Campaigns", icon: Megaphone },
+    { href: "/brand/discover", label: "Discover Creators", icon: Search },
+    { href: "/brand/collaborations", label: "Collaborations", icon: Handshake },
+    { href: "/brand/messages", label: "Messages", icon: MessageSquare, badge: messagesBadge || undefined },
+    { href: "/brand/reports", label: "Reports", icon: BarChart3 },
+    { href: "/brand/favorites", label: "Favorites", icon: Heart },
+    { href: "/brand/settings", label: "Settings", icon: Settings },
+  ];
+}
 
-const SHORTCUTS: NavItem[] = [
-  { href: "/brand/pending", label: "Pending Review", icon: Clock },
-  { href: "/brand/collaborations", label: "Applications", icon: Inbox },
-  { href: "/brand/campaigns?status=completed", label: "Completed", icon: CheckCircle2 },
-];
+function buildBrandShortcuts(pendingBadge: number): NavItem[] {
+  return [
+    { href: "/brand/pending", label: "Pending Review", icon: Clock, badge: pendingBadge || undefined },
+    { href: "/brand/collaborations", label: "Applications", icon: Inbox },
+    { href: "/brand/campaigns?status=completed", label: "Completed", icon: CheckCircle2 },
+  ];
+}
 
 export function BrandSidebar({
   brandName,
   brandEmail,
-  planName,
-  activeCampaigns,
-  campaignLimit,
+  messagesBadge = 0,
+  pendingBadge = 0,
 }: {
   brandName: string;
   brandEmail: string;
-  planName: string;
-  activeCampaigns: number;
-  campaignLimit: number;
+  messagesBadge?: number;
+  pendingBadge?: number;
 }) {
   const pathname = usePathname();
+  const mainNav = buildBrandNav(messagesBadge);
+  const shortcuts = buildBrandShortcuts(pendingBadge);
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r border-border bg-card">
@@ -67,14 +71,14 @@ export function BrandSidebar({
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
-        {MAIN_NAV.map((item) => (
+        {mainNav.map((item) => (
           <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} />
         ))}
 
         <div className="px-3 pb-2 pt-6 text-caption font-medium uppercase tracking-wide text-muted-foreground">
           Quick Access
         </div>
-        {SHORTCUTS.map((item) => (
+        {shortcuts.map((item) => (
           <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} />
         ))}
       </nav>

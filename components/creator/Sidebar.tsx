@@ -25,20 +25,22 @@ interface NavItem {
   badge?: number;
 }
 
-const MAIN_NAV: NavItem[] = [
-  { href: "/creator", label: "Home", icon: Home },
-  { href: "/creator/campaigns", label: "Discover Campaigns", icon: Compass },
-  { href: "/creator/collaborations", label: "Collaborations", icon: Handshake, badge: 3 },
-  { href: "/creator/drafts", label: "Drafts", icon: FileEdit, badge: 1 },
-  { href: "/creator/earnings", label: "Earnings", icon: Wallet },
-  { href: "/creator/messages", label: "Messages", icon: MessageSquare, badge: 5 },
-  { href: "/creator/profile", label: "My Profile", icon: User },
-  { href: "/creator/settings", label: "Settings", icon: Settings },
-];
+function buildNav(collaborationsBadge: number, draftsBadge: number, messagesBadge: number): NavItem[] {
+  return [
+    { href: "/creator", label: "Home", icon: Home },
+    { href: "/creator/campaigns", label: "Discover Campaigns", icon: Compass },
+    { href: "/creator/collaborations", label: "Collaborations", icon: Handshake, badge: collaborationsBadge || undefined },
+    { href: "/creator/drafts", label: "Drafts", icon: FileEdit, badge: draftsBadge || undefined },
+    { href: "/creator/earnings", label: "Earnings", icon: Wallet },
+    { href: "/creator/messages", label: "Messages", icon: MessageSquare, badge: messagesBadge || undefined },
+    { href: "/creator/profile", label: "My Profile", icon: User },
+    { href: "/creator/settings", label: "Settings", icon: Settings },
+  ];
+}
 
 const SHORTCUTS: NavItem[] = [
   { href: "/creator/campaigns?tab=nano", label: "Nano Opportunities", icon: Sparkles },
-  { href: "/creator/campaigns?tab=davet", label: "Invitations", icon: TrendingUp, badge: 2 },
+  { href: "/creator/campaigns?tab=davet", label: "Invitations", icon: TrendingUp },
 ];
 
 export function CreatorSidebar({
@@ -47,14 +49,21 @@ export function CreatorSidebar({
   badgeLevel,
   progressPercent = 0,
   nextLevelGap = 5,
+  collaborationsBadge = 0,
+  draftsBadge = 0,
+  messagesBadge = 0,
 }: {
   creatorName: string;
   creatorHandle: string;
   badgeLevel: string;
   progressPercent?: number;
   nextLevelGap?: number;
+  collaborationsBadge?: number;
+  draftsBadge?: number;
+  messagesBadge?: number;
 }) {
   const pathname = usePathname();
+  const mainNav = buildNav(collaborationsBadge, draftsBadge, messagesBadge);
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r border-border bg-card">
@@ -65,7 +74,7 @@ export function CreatorSidebar({
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
-        {MAIN_NAV.map((item) => (
+        {mainNav.map((item) => (
           <NavLink key={item.href} item={item} active={isActive(pathname, item.href)} />
         ))}
 

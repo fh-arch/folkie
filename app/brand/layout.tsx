@@ -5,6 +5,8 @@ import { getCurrentUserRole } from "@/lib/clerk/role";
 import { BrandSidebar } from "@/components/brand/Sidebar";
 import { BrandTopbar } from "@/components/brand/Topbar";
 import { MobileNav } from "@/components/shared/MobileNav";
+import { apiFetch } from "@/lib/api/client";
+import { ENDPOINTS } from "@/lib/api/endpoints";
 
 export default async function BrandLayout({
   children,
@@ -14,20 +16,28 @@ export default async function BrandLayout({
   const role = await getCurrentUserRole();
   if (role !== "brand") redirect("/dashboard");
 
-  const user = await currentUser();
+  const [user, conversations, campaigns] = await Promise.all([
+    currentUser(),
+    apiFetch<{ unreadCount: number }[]>(ENDPOINTS.messaging.conversations()).catch(() => []),
+    apiFetch<{ status: string }[]>(ENDPOINTS.brand.campaigns()).catch(() => []),
+  ]);
+
   const brandName =
     (user?.publicMetadata?.brandName as string) ??
     user?.firstName ??
     "Marka";
   const brandEmail = user?.primaryEmailAddress?.emailAddress ?? "";
+  const messagesBadge = conversations.reduce((sum, c) => sum + (c.unreadCount ?? 0), 0);
+  const pendingBadge = (campaigns as { status: string }[]).filter(
+    c => ["active", "applications_closed", "in_progress"].includes(c.status)
+  ).length;
 
   const sidebar = (
     <BrandSidebar
       brandName={brandName}
       brandEmail={brandEmail}
-      planName="Pro Plan"
-      activeCampaigns={12}
-      campaignLimit={25}
+      messagesBadge={messagesBadge}
+      pendingBadge={pendingBadge}
     />
   );
 
@@ -50,7 +60,7 @@ export default async function BrandLayout({
             href="/brand/campaigns/new"
             className="rounded-full bg-primary px-4 py-2 text-caption font-semibold text-primary-foreground"
           >
-            + Yeni
+            + New
           </Link>
         </header>
 
