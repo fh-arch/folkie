@@ -24,6 +24,7 @@ interface Submission {
   engagementRate: number;
   submissionStatus: string;
   videoUrl: string | null;
+  externalVideoUrl: string | null;
   script: string | null;
   revisionNote: string | null;
   hashtags: string[];
@@ -281,7 +282,29 @@ function SubmissionCard({
         {s.submissionStatus === "approved" && (
           <div className="mt-3 flex items-center gap-2 rounded-xl bg-success/10 p-3 text-caption text-success">
             <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-            <span className="font-semibold">Approved — waiting for creator to publish</span>
+            <span className="font-semibold">Approved — waiting for creator to publish on TikTok</span>
+          </div>
+        )}
+
+        {s.submissionStatus === "published" && (
+          <div className="mt-3 rounded-xl border border-success/30 bg-success/5 p-3 text-caption">
+            <div className="flex items-center gap-2 font-semibold text-success">
+              <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+              Published on TikTok
+            </div>
+            {s.externalVideoUrl ? (
+              <a
+                href={s.externalVideoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 flex items-center gap-1.5 font-semibold text-primary hover:underline"
+              >
+                <ExternalLink className="h-3 w-3" />
+                View on TikTok
+              </a>
+            ) : (
+              <p className="mt-1 text-muted-foreground">TikTok link not provided yet.</p>
+            )}
           </div>
         )}
 

@@ -89,7 +89,7 @@ export default async function BrandCampaignDetailPage({ params }: Props) {
 
   // Applications + submissions fetched in parallel
   let applications: ApplicationRow[] = [];
-  let submissions: { id: string; applicationId: string; creatorProfileId: string; handle: string | null; avatarUrl: string | null; followerCount: number; engagementRate: number; submissionStatus: string; videoUrl: string | null; script: string | null; revisionNote: string | null; hashtags: string[]; submittedAt: string; reviewedAt: string | null }[] = [];
+  let submissions: { id: string; applicationId: string; creatorProfileId: string; handle: string | null; avatarUrl: string | null; followerCount: number; engagementRate: number; submissionStatus: string; videoUrl: string | null; externalVideoUrl: string | null; script: string | null; revisionNote: string | null; hashtags: string[]; submittedAt: string; reviewedAt: string | null }[] = [];
   try {
     [applications, submissions] = await Promise.all([
       apiFetch<ApplicationRow[]>(ENDPOINTS.brand.campaignApplications(id)),
@@ -153,15 +153,15 @@ export default async function BrandCampaignDetailPage({ params }: Props) {
           bg="bg-primary-light"
           fg="text-primary"
           label="Content Submitted"
-          value="0"
-          sub="Active in Sprint 4"
+          value={`${submissions.length}`}
+          sub={`${submissions.filter(s => s.submissionStatus === "approved" || s.submissionStatus === "published").length} approved`}
         />
         <Stat
           icon={Eye}
           bg="bg-success/15"
           fg="text-success"
           label="Published"
-          value="0"
+          value={`${submissions.filter(s => s.submissionStatus === "published").length}`}
           sub="Live on TikTok"
         />
       </section>

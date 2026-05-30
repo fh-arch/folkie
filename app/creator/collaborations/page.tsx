@@ -20,6 +20,7 @@ interface ApplicationRow {
   rejectionReason: string | null;
   appliedAt: string;
   reviewedAt: string | null;
+  publishEndDate: string;
 }
 
 interface SubmissionRow {
@@ -152,6 +153,12 @@ function ApplicationCard({
           {nextAction && (
             <div className="mt-2 text-caption text-foreground/70">
               <span className="font-semibold">Next:</span> {nextAction}
+            </div>
+          )}
+          {app.status === "approved" && app.publishEndDate && (
+            <div className="mt-1 flex items-center gap-1 text-caption font-semibold text-warning">
+              <Calendar className="h-3 w-3" />
+              Publish by {new Date(app.publishEndDate).toLocaleDateString("en-GB")}
             </div>
           )}
           {app.rejectionReason && (
