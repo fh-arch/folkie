@@ -39,8 +39,8 @@ function buildNav(collaborationsBadge: number, draftsBadge: number, messagesBadg
 }
 
 const SHORTCUTS: NavItem[] = [
-  { href: "/creator/campaigns?tab=nano", label: "Nano Opportunities", icon: Sparkles },
-  { href: "/creator/campaigns?tab=davet", label: "Invitations", icon: TrendingUp },
+  { href: "/creator/campaigns?nanoOnly=true", label: "Nano Opportunities", icon: Sparkles },
+  { href: "/creator/collaborations", label: "Invitations", icon: TrendingUp },
 ];
 
 export function CreatorSidebar({
