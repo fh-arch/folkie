@@ -28,7 +28,7 @@ export async function saFetch<T>(path: string, options: RequestInit = {}): Promi
     const text = await res.text().catch(() => "");
     throw new SuperAdminApiError(res.status, text || `Error ${res.status}`);
   }
-  if (res.status === 204) return undefined as T;
+  if (res.status === 204) return undefined as unknown as T;
   const text = await res.text();
-  return text ? JSON.parse(text) : undefined;
+  return (text ? JSON.parse(text) : undefined) as T;
 }

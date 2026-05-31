@@ -1,6 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse, NextRequest } from "next/server";
-import { getSession } from "@/lib/superadmin/auth";
+import { NextResponse } from "next/server";
 
 const isSuperAdminRoute = createRouteMatcher(["/superleo(.*)"]);
 const isSuperAdminPublic = createRouteMatcher(["/superleo/login"]);
@@ -24,10 +23,12 @@ const isPublicRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, req) => {
   // ── Super admin routes — custom session, no Clerk ──
+  // Cookie existence check only (Edge-compatible).
+  // Full HMAC signature verification happens in requireSession() on each page.
   if (isSuperAdminRoute(req)) {
     if (isSuperAdminPublic(req)) return NextResponse.next();
-    const session = await getSession();
-    if (!session) {
+    const cookie = req.cookies.get("sa_session");
+    if (!cookie?.value) {
       return NextResponse.redirect(new URL("/superleo/login", req.url));
     }
     return NextResponse.next();
